@@ -1,0 +1,20 @@
+{
+  "skills": [
+    {
+      "name": "image-to-code",
+      "description": "Extract structured data (colors, layout, OCR text) from images without AI vision. Supports Thai + English OCR, UI button detection, hero-padding, and CSS generation.",
+      "triggers": [
+        "analyze image",
+        "read image",
+        "extract text from image",
+        "OCR this image",
+        "convert image to code",
+        "what colors are in this image",
+        "ดูรูปนี้",
+        "อ่านรูปนี้",
+        "แยกสีจากรูป",
+        "ถอดข้อความจากรูป"
+      ]
+    }
+  ]
+}

@@ -1,9 +1,13 @@
 {
   "name": "image-to-code",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Extract structured data (colors, layout, OCR text) from images. No AI vision required.",
   "bin": {
     "image-to-code": "bin/cli.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "install-skill": "node scripts/postinstall.js"
   },
   "repository": {
     "type": "git",
@@ -15,18 +19,16 @@
     "color-extraction",
     "layout-detection",
     "tesseract",
-    "thai"
+    "thai",
+    "opencode",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "ai-agent"
   ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/phumitchreal/image-to-code/issues"
   },
-  "homepage": "https://github.com/phumitchreal/image-to-code#readme",
-  "files": [
-    "bin/",
-    "image_to_code/",
-    "package.json",
-    "README.md",
-    "requirements.txt"
-  ]
+  "homepage": "https://github.com/phumitchreal/image-to-code#readme"
 }

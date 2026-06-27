@@ -2,12 +2,17 @@
 /**
  * image-to-code — npm wrapper.
  * Bundles Python source. Installs pip deps on first run, then delegates.
+ * On first run, also installs as opencode skill.
  */
 const { execSync, spawn } = require("child_process");
 const path = require("path");
+const fs = require("fs");
+const os = require("os");
 
 const MODULE_DIR = path.resolve(__dirname, "..");
 const PYTHON_MODULE = "image_to_code";
+
+const OPECODE_SKILL_DIR = path.join(os.homedir(), ".opencode", "skills", PYTHON_MODULE);
 
 function checkPython() {
   for (const cmd of ["python", "python3"]) {
@@ -27,7 +32,7 @@ function ensurePipDeps(python) {
       stdio: "pipe",
       timeout: 10000,
     });
-    return; // deps already installed
+    return;
   } catch {
     // install deps
   }
@@ -38,12 +43,34 @@ function ensurePipDeps(python) {
   );
 }
 
+function installOpencodeSkill() {
+  const skillMdPath = path.join(MODULE_DIR, "SKILL.md");
+  const opencodeJsonPath = path.join(MODULE_DIR, "opencode.json");
+  if (!fs.existsSync(skillMdPath)) return;
+
+  try {
+    fs.mkdirSync(OPECODE_SKILL_DIR, { recursive: true });
+    const sentinel = path.join(OPECODE_SKILL_DIR, ".installed");
+    if (fs.existsSync(sentinel)) return; // already installed
+
+    fs.copyFileSync(skillMdPath, path.join(OPECODE_SKILL_DIR, "SKILL.md"));
+    if (fs.existsSync(opencodeJsonPath)) {
+      fs.copyFileSync(opencodeJsonPath, path.join(OPECODE_SKILL_DIR, "opencode.json"));
+    }
+    fs.writeFileSync(sentinel, `Installed by image-to-code v${require("../package.json").version}`);
+    console.log(`→ Registered opencode skill: ~/.opencode/skills/${PYTHON_MODULE}/`);
+  } catch (e) {
+    // non-fatal: skill install is optional
+  }
+}
+
 function main() {
+  // Install opencode skill on first run
+  installOpencodeSkill();
+
   const python = checkPython();
   if (!python) {
-    console.error(
-      "✖ Python not found. Install Python 3.10+ from https://python.org"
-    );
+    console.error("✖ Python not found. Install Python 3.10+ from https://python.org");
     process.exit(1);
   }
 
