@@ -48,19 +48,19 @@ function installOpencodeSkill() {
   const opencodeJsonPath = path.join(MODULE_DIR, "opencode.json");
   if (!fs.existsSync(skillMdPath)) return;
 
+  // Only install if SKILL.md doesn't exist in opencode skills dir
+  const targetMd = path.join(OPECODE_SKILL_DIR, "SKILL.md");
+  if (fs.existsSync(targetMd)) return;
+
   try {
     fs.mkdirSync(OPECODE_SKILL_DIR, { recursive: true });
-    const sentinel = path.join(OPECODE_SKILL_DIR, ".installed");
-    if (fs.existsSync(sentinel)) return; // already installed
-
-    fs.copyFileSync(skillMdPath, path.join(OPECODE_SKILL_DIR, "SKILL.md"));
+    fs.copyFileSync(skillMdPath, targetMd);
     if (fs.existsSync(opencodeJsonPath)) {
       fs.copyFileSync(opencodeJsonPath, path.join(OPECODE_SKILL_DIR, "opencode.json"));
     }
-    fs.writeFileSync(sentinel, `Installed by image-to-code v${require("../package.json").version}`);
-    console.log(`→ Registered opencode skill: ~/.opencode/skills/${PYTHON_MODULE}/`);
+    console.log(`  → Registered opencode skill: ~/.opencode/skills/${PYTHON_MODULE}/`);
   } catch (e) {
-    // non-fatal: skill install is optional
+    console.error(`  ⚠ Could not install opencode skill: ${e.message}`);
   }
 }
 
