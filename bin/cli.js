@@ -55,6 +55,7 @@ function main() {
     env: {
       ...process.env,
       PYTHONPATH: MODULE_DIR + (process.env.PYTHONPATH ? path.delimiter + process.env.PYTHONPATH : ""),
+      PYTHONIOENCODING: "utf-8",
     },
   });
   child.on("exit", (code) => process.exit(code));

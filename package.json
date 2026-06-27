@@ -1,6 +1,6 @@
 {
   "name": "image-to-code",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Extract structured data (colors, layout, OCR text) from images. No AI vision required.",
   "bin": {
     "image-to-code": "bin/cli.js"

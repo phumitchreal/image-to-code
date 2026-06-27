@@ -16,6 +16,8 @@ def analyze_image(image_path=None, clipboard=False, ocr_language="tha+eng",
                   min_confidence=70, sample_count=2000, quantize_tolerance=15,
                   full=False, json_output=False):
     """Run full analysis pipeline on an image."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     resolved_path = image_path
 
     if clipboard:
