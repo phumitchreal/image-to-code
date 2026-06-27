@@ -1,6 +1,6 @@
 {
   "name": "image-to-code",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Extract structured data (colors, layout, OCR text) from images. No AI vision required.",
   "bin": {
     "image-to-code": "bin/cli.js"
@@ -24,7 +24,9 @@
   "homepage": "https://github.com/phumitchreal/image-to-code#readme",
   "files": [
     "bin/",
+    "image_to_code/",
     "package.json",
-    "README.md"
+    "README.md",
+    "requirements.txt"
   ]
 }
