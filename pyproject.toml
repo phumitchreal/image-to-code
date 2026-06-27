@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "image-to-code"
+version = "0.1.0"
+description = "Extract structured data (colors, layout, OCR text) from images. No AI vision required."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "phumitchreal" },
+]
+keywords = ["ocr", "image-analysis", "color-extraction", "layout-detection", "tesseract", "thai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Text Processing :: Optical Character Recognition",
+]
+
+dependencies = [
+    "Pillow>=10.0.0",
+    "pytesseract>=0.3.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/phumitchreal/image-to-code"
+Repository = "https://github.com/phumitchreal/image-to-code"
+"Bug Tracker" = "https://github.com/phumitchreal/image-to-code/issues"
+
+[project.scripts]
+image-to-code = "image_to_code.analyze:main"
+
+[tool.setuptools.packages.find]
+include = ["image_to_code*"]

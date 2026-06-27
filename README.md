@@ -4,6 +4,17 @@
 > Cross-platform: macOS · Linux · Windows  
 > Uses Tesseract OCR + Pillow for fully programmatic analysis.
 
+## Quick Install
+
+```bash
+# NPX (easiest — auto-installs Python deps)
+npx image-to-code screenshot.png
+
+# Pip
+pip install image-to-code
+image-to-code screenshot.png
+```
+
 ## Features
 
 - **Color Extraction** — dominant colors, semantic role detection (background, text, button, border, surface), WCAG contrast ratio, color harmony classification, gradient detection
@@ -20,6 +31,7 @@
 |---|---|---|
 | Python | 3.10+ | Core runtime |
 | [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) | 5.x | OCR engine (must be on PATH) |
+| Node.js (optional) | 18+ | Only needed for `npx image-to-code` |
 | [Pillow](https://python-pillow.org/) | 10.0+ | Image processing |
 | [pytesseract](https://github.com/madmaze/pytesseract) | 0.3.10+ | Python Tesseract wrapper |
 
@@ -42,16 +54,28 @@ winget install -e --id UB-Mannheim.TesseractOCR
 
 ## Installation
 
+### Option 1: NPX (easiest)
+
 ```bash
-# Clone
+npx image-to-code screenshot.png
+```
+
+> First run auto-installs the Python package. Requires Python 3.10+.
+
+### Option 2: pip
+
+```bash
+pip install image-to-code
+image-to-code screenshot.png
+```
+
+### Option 3: From source
+
+```bash
 git clone https://github.com/phumitchreal/image-to-code.git
 cd image-to-code
-
-# Install Python dependencies
 pip install -r requirements.txt
-
-# Verify Tesseract is on PATH
-tesseract --version
+python -m image_to_code.analyze screenshot.png
 ```
 
 ## Usage

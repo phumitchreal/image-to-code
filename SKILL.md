@@ -16,14 +16,29 @@ Extract structured data from images using Tesseract OCR + Pillow. No AI vision r
 ## Installation
 
 ```bash
-# Install Tesseract
-# macOS: brew install tesseract tesseract-lang
-# Linux: sudo apt install tesseract-ocr tesseract-ocr-tha
-# Windows: winget install -e --id UB-Mannheim.TesseractOCR
+# NPX (easiest — auto-installs Python deps)
+npx image-to-code path/to/image.png
 
-# Install Python deps
-pip install -r requirements.txt
+# Pip
+pip install image-to-code
+image-to-code path/to/image.png
 ```
+
+Or from source:
+
+```bash
+git clone https://github.com/phumitchreal/image-to-code.git
+cd image-to-code
+pip install -r requirements.txt
+python -m image_to_code.analyze path/to/image.png
+```
+
+### Prerequisites
+
+Install Tesseract OCR:
+- macOS: `brew install tesseract tesseract-lang`
+- Linux: `sudo apt install tesseract-ocr tesseract-ocr-tha`
+- Windows: `winget install -e --id UB-Mannheim.TesseractOCR`
 
 ## Usage
 
