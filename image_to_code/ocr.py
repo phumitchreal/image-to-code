@@ -2,11 +2,53 @@
 
 import os
 import re
+import sys
+import subprocess
 import tempfile
 from PIL import Image, ImageFilter, ImageOps
 import pytesseract
 
 from .utils import merge_thai_text
+
+# Auto-detect tesseract binary
+_TESS_CMD = None
+for _candidate in [
+    "tesseract",
+    r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+    r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+    "/usr/bin/tesseract",
+    "/usr/local/bin/tesseract",
+    "/opt/homebrew/bin/tesseract",
+]:
+    try:
+        subprocess.run([_candidate, "--version"], capture_output=True, timeout=5)
+        _TESS_CMD = _candidate
+        break
+    except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+        continue
+
+if _TESS_CMD:
+    pytesseract.pytesseract.tesseract_cmd = _TESS_CMD
+
+# Auto-configure tessdata with language download
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_USER_TESSDATA = os.path.join(_SCRIPT_DIR, "..", "tessdata")
+os.makedirs(_USER_TESSDATA, exist_ok=True)
+os.environ["TESSDATA_PREFIX"] = _USER_TESSDATA
+
+
+def _ensure_lang_data(language):
+    """Download missing traineddata files from GitHub."""
+    for lang in language.split("+"):
+        lang_file = os.path.join(_USER_TESSDATA, f"{lang}.traineddata")
+        if not os.path.exists(lang_file):
+            import urllib.request
+            url = f"https://github.com/tesseract-ocr/tessdata/raw/main/{lang}.traineddata"
+            print(f"Downloading {lang} language data...", file=sys.stderr)
+            try:
+                urllib.request.urlretrieve(url, lang_file)
+            except Exception as e:
+                print(f"Warning: failed to download {lang}: {e}", file=sys.stderr)
 
 
 def _histogram_stretch(img):
@@ -163,6 +205,7 @@ def _dedup_boxes(boxes, new_boxes, img_h):
 
 def extract_text(image_path, language="tha+eng", min_confidence=70):
     """Extract text from image using Tesseract OCR with preprocessing."""
+    _ensure_lang_data(language)
     img = Image.open(image_path).convert("RGB")
     w, h = img.size
 
